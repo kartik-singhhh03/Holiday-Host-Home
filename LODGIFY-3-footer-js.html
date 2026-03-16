@@ -1,0 +1,253 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  LODGIFY → Settings → Advanced → Footer - Custom Javascript  ║
+  ║  Paste EVERYTHING below (including the <script> tags)        ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<script>
+'use strict';
+
+/* ── Utility ── */
+const $ = (id) => document.getElementById(id);
+const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+
+/* ── 1. NAVIGATION ── */
+(function initNav() {
+  const nav = $('mainNav');
+  const hamburger = $('navHamburger');
+  if (!nav) return;
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+  hamburger?.addEventListener('click', () => {
+    const open = nav.classList.toggle('menu-open');
+    hamburger.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target)) nav.classList.remove('menu-open');
+  });
+})();
+
+/* ── 2. SCROLL REVEAL ── */
+(function initReveal() {
+  const els = $$('.reveal');
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+})();
+
+/* ── 3. ANIMATED UNDERLINE ── */
+(function initUnderline() {
+  const el = $('expUnderline');
+  if (!el) return;
+  const io = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { el.classList.add('visible'); io.disconnect(); }
+  }, { threshold: 0.5 });
+  io.observe(el);
+})();
+
+/* ── 4. COUNTERS ── */
+(function initCounters() {
+  const counters = $$('.counter');
+  if (!counters.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      const target = +el.dataset.target;
+      const suffix = el.dataset.suffix || '';
+      let start = 0;
+      const step = Math.ceil(target / 60);
+      const tick = () => {
+        start = Math.min(start + step, target);
+        el.textContent = start + suffix;
+        if (start < target) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      io.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => io.observe(c));
+})();
+
+/* ── 5. TESTIMONIAL SLIDER ── */
+(function initSlider() {
+  const track = $('reviewsTrack');
+  const dotsContainer = $('sliderDots');
+  if (!track || !dotsContainer) return;
+  const cards = $$('.review-card', track);
+  if (!cards.length) return;
+  let current = 0;
+  const perView = () => window.innerWidth >= 900 ? 3 : window.innerWidth >= 600 ? 2 : 1;
+
+  dotsContainer.innerHTML = '';
+  const totalDots = Math.ceil(cards.length / perView());
+  for (let i = 0; i < totalDots; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', `Page ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  function goTo(idx) {
+    current = idx;
+    const pv = perView();
+    const offset = idx * (cards[0].offsetWidth + 24) * pv;
+    track.style.transform = `translateX(-${offset}px)`;
+    track.style.transition = 'transform .5s ease';
+    $$('.slider-dot', dotsContainer).forEach((d, i) =>
+      d.classList.toggle('active', i === idx));
+  }
+
+  setInterval(() => goTo((current + 1) % Math.ceil(cards.length / perView())), 5000);
+})();
+
+/* ── 6. GALLERY LIGHTBOX ── */
+(function initLightbox() {
+  const lightbox = $('lightbox');
+  const lb_img = $('lightboxImg');
+  const close = $('lightboxClose');
+  const prev = $('lightboxPrev');
+  const next = $('lightboxNext');
+  if (!lightbox) return;
+
+  const srcs = [];
+  $$('.gallery-item[data-index]').forEach(item => {
+    const img = item.querySelector('img');
+    if (img) srcs.push(img.src);
+    item.addEventListener('click', () => open(+item.dataset.index));
+  });
+
+  let cur = 0;
+  const open = (i) => { cur = i; lb_img.src = srcs[i]; lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; };
+  const closeLb = () => { lightbox.classList.remove('active'); document.body.style.overflow = ''; };
+
+  close?.addEventListener('click', closeLb);
+  prev?.addEventListener('click', () => open((cur - 1 + srcs.length) % srcs.length));
+  next?.addEventListener('click', () => open((cur + 1) % srcs.length));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') open((cur - 1 + srcs.length) % srcs.length);
+    if (e.key === 'ArrowRight') open((cur + 1) % srcs.length);
+  });
+})();
+
+/* ── 7. EXPLORE SCROLL ── */
+(function initExplore() {
+  const cards = $('exploreCards');
+  const prev = $('explorePrev');
+  const next = $('exploreNext');
+  if (!cards || !prev || !next) return;
+  const scrollBy = () => cards.querySelector('.explore-card')?.offsetWidth + 24 || 364;
+  prev.addEventListener('click', () => cards.scrollBy({ left: -scrollBy(), behavior: 'smooth' }));
+  next.addEventListener('click', () => cards.scrollBy({ left:  scrollBy(), behavior: 'smooth' }));
+})();
+
+/* ── 8. CONTACT FORM ── */
+(function initContactForm() {
+  const form = $('contactForm');
+  const toast = $('toast');
+  if (!form) return;
+
+  const showToast = (msg) => {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.style.transform = 'translateY(0)';
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.transform = 'translateY(80px)'; toast.style.opacity = '0'; }, 4000);
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name  = form.querySelector('[name="name"]')?.value.trim();
+    const email = form.querySelector('[name="email"]')?.value.trim();
+    if (!name || !email) { showToast('Please fill in your name and email.'); return; }
+    const btn = $('contactSubmitBtn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+    setTimeout(() => {
+      showToast('\u2705 Enquiry sent! We\'ll get back to you within 2 hours.');
+      form.reset();
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined">send</span> Send Enquiry'; }
+    }, 1200);
+  });
+})();
+
+/* ── 9. FAQ ACCORDION ── */
+(function initFAQ() {
+  $$('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      $$('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+})();
+
+/* ── 10. ROI CALCULATOR ── */
+(function initROI() {
+  const calcForm = document.querySelector('.calculator-form');
+  if (!calcForm) return;
+  const nights     = $('nights');
+  const rate       = $('rate');
+  const mgtFee     = $('managementFee');
+  const nightsVal  = $('nightsValue');
+  const rateVal    = $('rateValue');
+  const feeVal     = $('feeValue');
+  const grossEl    = $('grossRevenue');
+  const netEl      = $('netRevenue');
+  const annualEl   = $('annualROI');
+
+  const calc = () => {
+    const n = +(nights?.value || 180);
+    const r = +(rate?.value   || 650);
+    const f = +(mgtFee?.value || 20) / 100;
+    const gross = n * r;
+    const net   = gross * (1 - f);
+    if (nightsVal) nightsVal.textContent = n + ' nights';
+    if (rateVal)   rateVal.textContent   = 'AED ' + r;
+    if (feeVal)    feeVal.textContent    = Math.round(f * 100) + '%';
+    if (grossEl)   grossEl.textContent   = 'AED ' + gross.toLocaleString();
+    if (netEl)     netEl.textContent     = 'AED ' + Math.round(net).toLocaleString();
+    if (annualEl)  annualEl.textContent  = 'AED ' + Math.round(net).toLocaleString();
+  };
+  [nights, rate, mgtFee].forEach(el => el?.addEventListener('input', calc));
+  calc();
+})();
+
+/* ── 11. HERO BG ── */
+(function mapAssets() {
+  const heroBg = $('heroBg');
+  if (heroBg) {
+    heroBg.style.backgroundImage = "url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1920&q=80'), linear-gradient(135deg,#1C3240,#2E5470)";
+    heroBg.style.backgroundSize = 'cover';
+    heroBg.style.backgroundPosition = 'center';
+  }
+})();
+
+/* ── 12. PAGE HERO (inner pages) ── */
+(function initPageHero() {
+  const bg = document.querySelector('.page-hero-bg');
+  if (!bg) return;
+  const src = bg.dataset.bg;
+  if (src) bg.style.backgroundImage = `url('${src}')`;
+})();
+
+/* ── 13. STRIP HOVER PAUSE ── */
+(function initStrip() {
+  const strip = document.querySelector('.strip-track');
+  if (!strip) return;
+  strip.addEventListener('mouseenter', () => strip.style.animationPlayState = 'paused');
+  strip.addEventListener('mouseleave', () => strip.style.animationPlayState = 'running');
+})();
+
+console.log('%cHoliday Home Host — Luxury Stays in RAK', 'color:#74A4B2;font-size:13px;font-weight:bold;');
+</script>
