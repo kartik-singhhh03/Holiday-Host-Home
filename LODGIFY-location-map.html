@@ -94,7 +94,7 @@
   position: absolute; inset: 0;
   background-image:
     url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1920&q=85'),
-    linear-gradient(135deg, #1C3240 0%, #2E5470 60%, #1C3240 100%);
+    linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-main) 100%);
   background-size: cover;
   background-position: center 40%;
   transform: scale(1.06);
@@ -108,12 +108,7 @@
 
 .hhh-loc .loc-hero-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(
-    160deg,
-    rgba(28,50,64,.62) 0%,
-    rgba(28,50,64,.30) 40%,
-    rgba(28,50,64,.75) 100%
-  );
+  background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 100%);
 }
 
 /* floating ambient orbs */
@@ -145,10 +140,10 @@
 
 .hhh-loc .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(146,183,209,.16);
-  border: 1px solid rgba(146,183,209,.42);
+  background: var(--white);
+  border: 1px solid var(--border);
   backdrop-filter: blur(14px);
-  color: rgba(255,255,255,.92);
+  color: var(--text-dark);
   font-family: var(--font-ui); font-size: .68rem; font-weight: 600;
   letter-spacing: .24em; text-transform: uppercase;
   padding: 8px 22px; border-radius: var(--radius-xl);
@@ -160,14 +155,14 @@
 .hhh-loc .hero-title {
   font-family: var(--font-serif);
   font-size: clamp(2.2rem, 5.5vw, 4.4rem);
-  font-weight: 700; line-height: 1.12; color: var(--white);
+  font-weight: 700; line-height: 1.12; color: var(--text-dark);
   margin-bottom: 20px;
   opacity: 0; animation: fadeUpIn .9s .5s forwards;
 }
-.hhh-loc .hero-title em { color: #B8D4E4; font-style: italic; }
+.hhh-loc .hero-title em { color: var(--primary-dark); font-style: italic; }
 
 .hhh-loc .hero-sub {
-  font-size: 1.02rem; color: rgba(255,255,255,.8);
+  font-size: 1.02rem; color: var(--text-body);
   max-width: 520px; margin: 0 auto 36px; line-height: 1.9;
   opacity: 0; animation: fadeUpIn .9s .75s forwards;
 }
@@ -193,8 +188,8 @@
 }
 .hhh-loc .btn-outline {
   display: inline-flex; align-items: center; gap: 9px;
-  background: rgba(255,255,255,.1);
-  border: 1.5px solid rgba(255,255,255,.45); color: #fff;
+  background: var(--white);
+  border: 1.5px solid var(--border); color: var(--text-dark);
   font-family: var(--font-ui); font-weight: 600; font-size: .86rem;
   letter-spacing: .06em; padding: 13px 30px;
   border-radius: var(--radius-xl);
@@ -202,7 +197,7 @@
   transition: var(--transition);
 }
 .hhh-loc .btn-outline:hover {
-  background: rgba(255,255,255,.22);
+  background: var(--bg-soft);
   transform: translateY(-2px);
 }
 .hhh-loc .btn-primary .mi,
@@ -218,13 +213,13 @@
 .hhh-loc .hero-scroll span {
   font-family: var(--font-ui); font-size: .6rem; font-weight: 600;
   letter-spacing: .22em; text-transform: uppercase;
-  color: rgba(255,255,255,.5);
+  color: var(--text-muted);
 }
 .hhh-loc .scroll-ring {
   width: 34px; height: 34px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.28);
+  border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,.6);
+  color: var(--text-muted);
   animation: bounce 2.5s ease-in-out infinite;
 }
 @keyframes bounce { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(6px); } }
@@ -754,3 +749,9 @@
   </section>
 
 </div><!-- /.hhh-loc -->
+
+
+
+
+
+

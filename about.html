@@ -28,11 +28,14 @@
     /* ── HERO ── */
     .about-hero {
       position: relative;
-      height: 92vh;
-      min-height: 640px;
+      width: 100%;
+      min-height: 95vh;
       display: flex;
       align-items: center;
+      justify-content: center;
       overflow: hidden;
+      margin-top: -100px; /* Pull up behind transparent navbar */
+      padding-top: 180px; /* Increased offset for navbar to prevent badge overlap */
     }
     .about-hero-bg {
       position: absolute;
@@ -45,61 +48,96 @@
       will-change: transform;
     }
     .about-hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(130deg, rgba(28,50,64,.72) 0%, rgba(28,50,64,.38) 55%, rgba(116,164,178,.22) 100%);
+      position: absolute; inset: 0;
+      /* Dark cinematic gradient overlay - slightly bluish-dark */
+      background: linear-gradient(180deg, rgba(15, 32, 45, 0.7) 0%, rgba(15, 32, 45, 0.4) 40%, rgba(15, 32, 45, 0.7) 100%);
+      z-index: 1;
     }
     .about-hero-content {
       position: relative;
       z-index: 2;
-      max-width: 760px;
+      max-width: 900px;
       padding: 0 48px;
+      margin-top: 60px; /* Push down to avoid navbar overlap */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
     }
     .about-hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 9px;
-      background: rgba(146,183,209,.18);
-      border: 1px solid rgba(146,183,209,.42);
-      backdrop-filter: blur(14px);
-      color: rgba(255,255,255,.92);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: var(--white);
       font-family: var(--font-ui);
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .25em;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .15em;
       text-transform: uppercase;
-      padding: 9px 22px;
-      border-radius: var(--radius-xl);
-      margin-bottom: 30px;
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
       opacity: 0;
       animation: fadeInUp .8s .3s forwards;
     }
     .about-hero h1 {
       font-family: var(--font-serif);
-      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
       font-weight: 700;
       line-height: 1.1;
-      color: var(--white);
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeInUp .9s .55s forwards;
+      margin: 0;
+      color: #ffffff; 
+      text-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
-    .about-hero h1 em { color: #B8D4E4; font-style: italic; }
+    .about-hero h1 em { color: #f4f6f8; font-style: italic; }
     .about-hero-sub {
-      font-size: 1.08rem;
-      color: rgba(255,255,255,.82);
-      line-height: 1.85;
-      max-width: 500px;
-      margin-bottom: 40px;
-      opacity: 0;
+      font-family: var(--font-sans);
+      font-size: clamp(1.1rem, 2vw, 1.25rem);
+      color: #ffffff;
+      opacity: 0.8;
+      line-height: 1.6;
+      max-width: 650px;
+      margin: 0 auto;
+      text-wrap: balance;
       animation: fadeInUp .9s .78s forwards;
     }
     .about-hero-actions {
       display: flex;
-      gap: 14px;
+      gap: 1rem;
+      justify-content: center;
       flex-wrap: wrap;
+      margin-top: 1.5rem;
       opacity: 0;
       animation: fadeInUp .9s 1s forwards;
+    }
+    
+    .about-hero-actions .btn-primary {
+      background: var(--primary); /* soft blue */
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2); 
+      transition: all 0.3s ease;
+    }
+    .about-hero-actions .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    .about-hero-actions .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--white);
+      box-shadow: none;
+      transition: all 0.3s ease;
+    }
+    .about-hero-actions .btn-outline:hover {
+      background: var(--white);
+      color: var(--text-dark);
+      border-color: var(--white);
+      transform: translateY(-2px);
     }
     .about-hero-scroll {
       position: absolute;
@@ -120,12 +158,12 @@
       font-weight: 600;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.55);
+      color: var(--text-muted);
     }
     .scroll-dot-wrap {
       width: 28px;
       height: 46px;
-      border: 1.5px solid rgba(255,255,255,.3);
+      border: 1.5px solid var(--border);
       border-radius: 14px;
       display: flex;
       align-items: flex-start;
@@ -135,7 +173,7 @@
     .scroll-dot {
       width: 5px;
       height: 5px;
-      background: rgba(255,255,255,.7);
+      background: var(--text-muted);
       border-radius: 50%;
       animation: scrollDot 2s ease-in-out infinite;
     }
@@ -151,11 +189,11 @@
     .about-marquee-item .dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; }
 
     /* ── STORY SECTION ── */
-    .story-section { background: var(--bg-main); padding: 110px 0; }
+    .story-section { background: var(--bg-main); padding: 120px 0; }
     .story-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
     .story-visual { position: relative; }
     .story-img-main {
-      border-radius: var(--radius-lg);
+      border-radius: 16px;
       overflow: hidden;
       aspect-ratio: 4/5;
       box-shadow: var(--shadow-lg);
@@ -167,7 +205,7 @@
       bottom: -32px;
       right: -32px;
       width: 200px;
-      border-radius: var(--radius-md);
+      border-radius: 12px;
       overflow: hidden;
       box-shadow: var(--shadow-lg);
       border: 4px solid var(--white);
@@ -180,22 +218,23 @@
       left: -24px;
       background: var(--white);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: 16px;
       padding: 16px 22px;
       box-shadow: var(--shadow-md);
       text-align: center;
+      z-index: 2;
     }
-    .story-founded-badge .year { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--primary-dark); display: block; line-height: 1; }
+    .story-founded-badge .year { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: #1c3240; display: block; line-height: 1; }
     .story-founded-badge .label { font-family: var(--font-ui); font-size: .62rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; display: block; }
     .story-content { padding: 16px 0; }
-    .story-content h2 { font-family: var(--font-serif); font-size: clamp(1.9rem, 3vw, 2.7rem); font-weight: 700; color: var(--text-dark); line-height: 1.2; margin-bottom: 24px; }
+    .story-content h2 { font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 3.2rem); font-weight: 700; color: #1c3240; line-height: 1.2; margin-bottom: 24px; }
     .story-content h2 span { color: var(--primary-dark); font-style: italic; }
-    .story-content p { font-size: .97rem; color: var(--text-body); line-height: 1.9; margin-bottom: 20px; }
+    .story-content p { font-family: var(--font-sans); font-size: 1.05rem; color: var(--text-body); line-height: 1.85; margin-bottom: 20px; }
     .story-divider { width: 60px; height: 2px; background: linear-gradient(90deg, var(--primary), var(--primary-dark)); border-radius: 2px; margin: 28px 0; }
 
     /* ── NUMBERS ── */
     .numbers-section {
-      background: linear-gradient(135deg, #1C3240 0%, #2c4d63 50%, #1C3240 100%);
+      background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-warm) 100%);
       padding: 100px 0;
       position: relative;
       overflow: hidden;
@@ -220,26 +259,26 @@
       overflow: hidden;
     }
     .number-item {
-      background: rgba(255,255,255,.04);
+      background: var(--white);
       padding: 52px 36px;
       text-align: center;
       transition: background .35s;
     }
-    .number-item:hover { background: rgba(146,183,209,.1); }
+    .number-item:hover { background: var(--bg-soft); }
     .number-icon { color: var(--primary); margin-bottom: 18px; }
     .number-icon .material-symbols-outlined { font-size: 30px; }
-    .number-val { font-family: var(--font-serif); font-size: clamp(2.4rem, 4vw, 3.4rem); font-weight: 700; color: var(--white); display: block; line-height: 1; }
+    .number-val { font-family: var(--font-serif); font-size: clamp(2.4rem, 4vw, 3.4rem); font-weight: 700; color: var(--text-dark); display: block; line-height: 1; }
     .number-suffix { font-family: var(--font-serif); font-size: 1.8rem; color: var(--primary); }
-    .number-label { font-family: var(--font-ui); font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-top: 12px; display: block; }
+    .number-label { font-family: var(--font-ui); font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--text-muted); margin-top: 12px; display: block; }
 
     /* ── MISSION SECTION ── */
-    .mission-section { background: var(--bg-warm); padding: 110px 0; }
+    .mission-section { background: var(--bg-warm); padding: 120px 0; }
     .mission-header { text-align: center; max-width: 660px; margin: 0 auto 72px; }
     .mission-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .mission-card {
       background: var(--white);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      border-radius: 16px;
       padding: 44px 32px;
       transition: var(--transition);
       box-shadow: var(--shadow-sm);
@@ -269,17 +308,17 @@
     }
     .mission-card-icon .material-symbols-outlined { font-size: 28px; color: var(--primary-dark); }
     .mission-card:hover .mission-card-icon { background: linear-gradient(135deg, rgba(146,183,209,.28), rgba(116,164,178,.18)); transform: scale(1.1) rotate(6deg); }
-    .mission-card h3 { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--text-dark); margin-bottom: 14px; }
-    .mission-card p { font-size: .9rem; color: var(--text-muted); line-height: 1.85; }
+    .mission-card h3 { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: #1c3240; margin-bottom: 14px; }
+    .mission-card p { font-size: .95rem; color: var(--text-body); line-height: 1.85; }
 
     /* ── TEAM SECTION ── */
-    .team-section { background: var(--bg-soft); padding: 110px 0; }
+    .team-section { background: var(--bg-soft); padding: 120px 0; }
     .team-header { text-align: center; max-width: 580px; margin: 0 auto 72px; }
     .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
     .team-card {
       background: var(--white);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      border-radius: 16px;
       overflow: hidden;
       transition: var(--transition);
       box-shadow: var(--shadow-sm);
@@ -315,6 +354,7 @@
       width: 36px; height: 36px;
       background: rgba(255,255,255,.15);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,.3);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
@@ -324,14 +364,14 @@
     .team-social-link:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
     .team-social-link .material-symbols-outlined { font-size: 16px; }
     .team-card-info { padding: 24px; }
-    .team-card-info h3 { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
-    .team-card-role { font-family: var(--font-ui); font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 12px; display: block; }
-    .team-card-info p { font-size: .82rem; color: var(--text-muted); line-height: 1.7; }
+    .team-card-info h3 { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: #1c3240; margin-bottom: 4px; }
+    .team-card-role { font-family: var(--font-ui); font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 12px; display: block; }
+    .team-card-info p { font-size: .9rem; color: var(--text-body); line-height: 1.7; }
 
     /* ── VALUES TIMELINE ── */
-    .values-section { background: var(--bg-main); padding: 110px 0; }
+    .values-section { background: var(--bg-main); padding: 120px 0; }
     .values-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 60px; }
-    .values-image { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/5; box-shadow: var(--shadow-lg); }
+    .values-image { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4/5; box-shadow: var(--shadow-lg); }
     .values-image img { width: 100%; height: 100%; object-fit: cover; }
     .values-image-tag {
       position: absolute;
@@ -340,8 +380,9 @@
       right: 24px;
       background: rgba(255,255,255,.92);
       backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: 16px;
       padding: 18px 22px;
       display: flex;
       align-items: center;
@@ -358,7 +399,7 @@
       padding: 24px 28px;
       background: var(--bg-soft);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: 16px;
       transition: var(--transition);
       cursor: default;
     }
@@ -374,77 +415,110 @@
       color: var(--white);
       flex-shrink: 0;
     }
-    .value-item-body h4 { font-family: var(--font-ui); font-size: .95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
-    .value-item-body p { font-size: .85rem; color: var(--text-muted); line-height: 1.75; }
+    .value-item-body h4 { font-family: var(--font-ui); font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+    .value-item-body p { font-size: .95rem; color: var(--text-body); line-height: 1.75; }
 
     /* ── LOCATION ── */
-    .location-section { background: var(--bg-warm); padding: 110px 0; }
+    .location-section { background: var(--bg-warm); padding: 120px 0; }
     .location-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; margin-top: 56px; }
-    .location-image { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/3; box-shadow: var(--shadow-lg); }
+    .location-image { border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; box-shadow: var(--shadow-lg); }
     .location-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s; }
     .location-image:hover img { transform: scale(1.04); }
     .location-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .location-fact {
       background: var(--white);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: 16px;
       padding: 24px;
       transition: var(--transition);
     }
     .location-fact:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: var(--shadow-sm); }
     .location-fact-icon { color: var(--primary-dark); margin-bottom: 10px; }
     .location-fact-icon .material-symbols-outlined { font-size: 24px; }
-    .location-fact h4 { font-family: var(--font-ui); font-size: .82rem; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
-    .location-fact p { font-size: .78rem; color: var(--text-muted); line-height: 1.6; }
-
-    /* ── TESTIMONIALS ── */
-    .about-reviews { background: var(--bg-main); padding: 110px 0; }
-    .about-reviews-header { text-align: center; max-width: 580px; margin: 0 auto 72px; }
-    .about-reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .about-review-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 36px 32px;
-      transition: var(--transition);
-      box-shadow: var(--shadow-sm);
-      position: relative;
-    }
-    .about-review-card::before {
-      content: '\201C';
-      position: absolute;
-      top: 20px;
-      right: 28px;
-      font-family: var(--font-serif);
-      font-size: 5rem;
-      line-height: 1;
-      color: rgba(146,183,209,.18);
-      font-weight: 700;
-    }
-    .about-review-card:hover { border-color: var(--border-hover); transform: translateY(-5px); box-shadow: var(--shadow-md); }
-    .about-review-stars { color: #C9A84C; font-size: .95rem; letter-spacing: 3px; margin-bottom: 18px; }
-    .about-review-text { font-family: var(--font-serif); font-size: .97rem; font-style: italic; color: var(--text-body); line-height: 1.85; margin-bottom: 26px; }
-    .about-review-author { display: flex; align-items: center; gap: 14px; }
-    .about-review-avatar { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; color: var(--white); flex-shrink: 0; }
-    .about-review-name { font-family: var(--font-ui); font-weight: 600; font-size: .9rem; color: var(--text-dark); }
-    .about-review-country { font-size: .74rem; color: var(--text-muted); margin-top: 2px; }
+    .location-fact h4 { font-family: var(--font-ui); font-size: .95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+    .location-fact p { font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
 
     /* ── CTA BANNER ── */
-    .about-cta {
-      padding: 120px 0;
-      background: linear-gradient(135deg, #1C3240 0%, #2c4d63 50%, #1C3240 100%);
-      position: relative;
-      overflow: hidden;
-      text-align: center;
+    .about-cta { padding: 120px 0; background: #fbfbfb; text-align: center; } /* slight off-white behind the glass card */
+    .about-cta-content { 
+      max-width: 840px; 
+      margin: 0 auto; 
+      padding: 80px 48px; 
+      border-radius: 28px; 
+      position: relative; 
+      overflow: hidden; 
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .about-cta-bg-shapes { position: absolute; inset: 0; pointer-events: none; }
-    .about-cta-shape { position: absolute; border-radius: 50%; filter: blur(80px); }
-    .about-cta-shape-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(146,183,209,.18) 0%, transparent 70%); top: -150px; left: -100px; animation: shapeFloat 9s ease-in-out infinite; }
-    .about-cta-shape-2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(116,164,178,.14) 0%, transparent 70%); bottom: -100px; right: -80px; animation: shapeFloat 11s ease-in-out infinite reverse; }
-    .about-cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
-    .about-cta h2 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 20px; }
-    .about-cta p { font-size: 1.05rem; color: rgba(255,255,255,.75); line-height: 1.85; margin-bottom: 42px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .about-cta-img {
+      position: absolute;
+      inset: -30px; /* prevent blur white edges */
+      background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80'); /* beautiful bright beach sea image */
+      background-size: cover;
+      background-position: center 60%;
+      filter: blur(14px);
+      z-index: 1;
+    }
+    .about-cta-overlay {
+      position: absolute;
+      inset: 0;
+      /* warm beige/slate overlay to ensure contrast */
+      background: linear-gradient(135deg, rgba(31, 48, 59, 0.4), rgba(46, 61, 68, 0.55));
+      z-index: 2;
+    }
+    .about-cta-glass {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 3;
+    }
+    .about-cta-inner {
+      position: relative;
+      z-index: 4;
+      max-width: 680px;
+    }
+    .about-cta h2 { font-family: var(--font-serif); font-size: 2.8rem; font-weight: 500; color: #fff; margin-bottom: 24px; text-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+    .about-cta p { font-size: 1.15rem; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 40px; text-shadow: 0 1px 6px rgba(0,0,0,0.1); }
     .about-cta-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    
+    /* CTA buttons match hero aesthetics */
+    .about-cta-links .btn {
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: .95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .about-cta-links .btn-primary { 
+      background: #fbfbfb; /* soft white/beige */
+      color: #1C3240; 
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .about-cta-links .btn-primary:hover { 
+      background: #ffffff; 
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+    .about-cta-links .btn-outline { 
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.4); 
+      color: #fff; 
+    }
+    .about-cta-links .btn-outline:hover { 
+      background: rgba(255,255,255,0.1); 
+      border-color: #fff; 
+      transform: translateY(-2px);
+    }
+    
     /* ── RESPONSIVE ── */
     @media (max-width: 1100px) {
       .team-grid { grid-template-columns: repeat(2, 1fr); }
@@ -455,7 +529,6 @@
       .story-img-float { display: none; }
       .story-founded-badge { left: 16px; top: 16px; }
       .mission-cards { grid-template-columns: 1fr; }
-      .about-reviews-grid { grid-template-columns: 1fr; }
       .about-hero-content { padding: 0 24px; }
       .team-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -470,23 +543,23 @@
 
 <!-- NAV -->
 <nav class="nav" id="mainNav">
-  <a href="index.html" class="nav-logo">
-    <span class="logo-main">HHH</span>
-    <span class="logo-sub">Holiday Home Host</span>
-  </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="property-owners.html">For Owners</a></li>
-    <li><a href="services.html">Services</a></li>
-    <li><a href="commission.html">Commission</a></li>
-    <li><a href="listing-process.html">How It Works</a></li>
-    <li><a href="index.html#contact" class="nav-cta">List Your Property</a></li>
-  </ul>
-  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
+      <a href="index.html" class="nav-logo">
+        <span class="logo-main">HHH</span>
+        <span class="logo-sub">Holiday Home Host</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="property-owners.html">For Owners</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="commission.html">Commission</a></li>
+        <li><a href="listing-process.html">How It Works</a></li>
+        <li><a href="index.html#contact" class="nav-cta">List Your Property</a></li>
+      </ul>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
 
 <!-- HERO -->
 <section class="about-hero" id="aboutHero">
@@ -505,7 +578,7 @@
           <span class="material-symbols-outlined">menu_book</span>
           Our Story
         </a>
-        <a href="property-owners.html" class="btn-outline" style="color:#fff;border-color:rgba(255,255,255,.45);">
+        <a href="property-owners.html" class="btn-outline">
           <span class="material-symbols-outlined">home_work</span>
           List Your Property
         </a>
@@ -579,7 +652,7 @@
   <div class="container">
     <div class="reveal" style="text-align:center;margin-bottom:56px;">
       <div class="section-label" style="justify-content:center;color:rgba(255,255,255,.6);">By The Numbers</div>
-      <h2 class="section-title" style="color:var(--white);">Our Track Record<br>Speaks for Itself</h2>
+      <h2 class="section-title" style="color:var(--text-dark);">Our Track Record<br>Speaks for Itself</h2>
     </div>
     <div class="numbers-grid reveal">
       <div class="number-item">
@@ -827,129 +900,98 @@
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="about-reviews" id="guestWords">
-  <div class="container">
-    <div class="about-reviews-header reveal">
-      <div class="section-label" style="justify-content:center;">Guest Voices</div>
-      <h2 class="section-title" style="text-align:center;">What Guests &amp; Owners<br>Say About HHH</h2>
-    </div>
-    <div class="about-reviews-grid">
-      <div class="about-review-card reveal reveal-delay-1">
-        <div class="about-review-stars">★★★★★</div>
-        <p class="about-review-text">"HHH transformed my investment property into a high-performing asset. The team's professionalism, transparent reporting, and dynamic pricing exceeded every expectation from day one."</p>
-        <div class="about-review-author">
-          <div class="about-review-avatar">K</div>
-          <div>
-            <div class="about-review-name">Khalid A.</div>
-            <div class="about-review-country">Property Owner &middot; Abu Dhabi</div>
-          </div>
-        </div>
-      </div>
-      <div class="about-review-card reveal reveal-delay-2">
-        <div class="about-review-stars">★★★★★</div>
-        <p class="about-review-text">"I was nervous about renting my apartment but the HHH team made everything effortless — from photos to guests to monthly reports. The monthly income has been incredible."</p>
-        <div class="about-review-author">
-          <div class="about-review-avatar">N</div>
-          <div>
-            <div class="about-review-name">Nadia S.</div>
-            <div class="about-review-country">Property Owner &middot; Dubai</div>
-          </div>
-        </div>
-      </div>
-      <div class="about-review-card reveal reveal-delay-3">
-        <div class="about-review-stars">★★★★★</div>
-        <p class="about-review-text">"The transparency is what I love most. I always know exactly how my property is performing — the dashboards are clear and the team responds within minutes. Outstanding."</p>
-        <div class="about-review-author">
-          <div class="about-review-avatar">O</div>
-          <div>
-            <div class="about-review-name">Omar J.</div>
-            <div class="about-review-country">Property Owner &middot; Germany</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- CTA -->
 <section class="about-cta">
-  <div class="about-cta-bg-shapes">
-    <div class="about-cta-shape about-cta-shape-1"></div>
-    <div class="about-cta-shape about-cta-shape-2"></div>
-  </div>
   <div class="container">
-    <div class="about-cta-inner reveal">
-      <div class="section-label" style="justify-content:center;margin-bottom:20px;color:rgba(255,255,255,.65);">
-        <span style="background:rgba(255,255,255,.3);"></span>Ready to Get Started?
-      </div>
-      <h2>Transform Your Property<br>Into a Premium Holiday Home</h2>
-      <p>Join the growing number of property owners trusting Holiday Home Host with their Ras Al Khaimah investments. Our 20% all-inclusive fee means professional management with no hidden surprises.</p>
-      <div class="about-cta-links">
-        <a href="property-owners.html" class="btn-primary">
-          <span class="material-symbols-outlined">home_work</span>
-          List Your Property
-        </a>
-        <a href="commission.html" class="btn-outline" style="color:#fff;border-color:rgba(255,255,255,.42);">
-          <span class="material-symbols-outlined">percent</span>
-          Our Commission Model
-        </a>
+    <div class="about-cta-content reveal">
+      <div class="about-cta-img"></div>
+      <div class="about-cta-overlay"></div>
+      <div class="about-cta-glass"></div>
+      <div class="about-cta-inner">
+        <h2>Transform Your Property<br>Into a Premium Holiday Home</h2>
+        <p>Join the growing number of property owners trusting Holiday Home Host with their Ras Al Khaimah investments. Our 20% all-inclusive fee means professional management with no hidden surprises.</p>
+        <div class="about-cta-links">
+          <a href="property-owners.html" class="btn btn-primary">
+            <span class="material-symbols-outlined">home_work</span>
+            List Your Property
+          </a>
+          <a href="commission.html" class="btn btn-outline">
+            <span class="material-symbols-outlined">percent</span>
+            Our Commission Model
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer" id="footer">
-  <div class="container">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="logo-main">HHH</div>
-        <div class="logo-sub">Holiday Home Host</div>
-        <p>Premium short-term rental management in Ras Al Khaimah — maximising owner returns and delivering exceptional guest experiences.</p>
-        <div class="footer-social">
-          <a href="#" class="social-icon" aria-label="Instagram">
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          </a>
-          <a href="#" class="social-icon" aria-label="WhatsApp">
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </a>
-          <a href="#" class="social-icon" aria-label="LinkedIn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
+<!-- FOOTER -->`r`n<footer class="footer" id="footer">
+      <div class="footer-bg-image"></div>
+      <div class="footer-overlay"></div>
+      <div class="container footer-glass">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="logo-main">HHH</div>
+            <div class="logo-sub">Holiday Home Host</div>
+            <p>Premium short-term rental management in Ras Al Khaimah — maximising owner returns and delivering exceptional guest experiences.</p>
+            <div class="footer-social">
+              <a href="#" class="social-icon" aria-label="Instagram"><span class="material-symbols-outlined">photo_camera</span></a>
+              <a href="#" class="social-icon" aria-label="WhatsApp"><span class="material-symbols-outlined">chat_bubble</span></a>
+              <a href="#" class="social-icon" aria-label="LinkedIn"><span class="material-symbols-outlined">work</span></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About HHH</a></li>
+              <li><a href="services.html">Our Services</a></li>
+              <li><a href="commission.html">Commission</a></li>
+              <li><a href="index.html#contact">Contact Us</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Owners &amp; Partners</h4>
+            <ul>
+              <li><a href="property-owners.html">For Property Owners</a></li>
+              <li><a href="commission.html">Commission Structure</a></li>
+              <li><a href="listing-process.html">How It Works</a></li>
+              <li><a href="roi-calculator.html">ROI Calculator</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:hello@holidayhomehost.ae">hello@holidayhomehost.ae</a></li>
+              <li><a href="tel:+971501234567">+971 50 123 4567</a></li>
+              <li>Hayat Island, Mina Al Arab</li>
+              <li>Ras Al Khaimah, UAE</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 Holiday Home Host. All rights reserved.</span>
+          <span>
+            <a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Service</a> &nbsp;·&nbsp; <a href="#">RAKTDA Licensed</a>
+          </span>
         </div>
       </div>
-      <div class="footer-col"><h4>Quick Links</h4><ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About HHH</a></li>
-        <li><a href="services.html">Our Services</a></li>
-        <li><a href="commission.html">Commission</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Owners &amp; Partners</h4><ul>
-        <li><a href="property-owners.html">For Property Owners</a></li>
-        <li><a href="commission.html">Commission Structure</a></li>
-        <li><a href="listing-process.html">How It Works</a></li>
-        <li><a href="roi-calculator.html">ROI Calculator</a></li>
-        <li><a href="partnerships.html">Partnerships</a></li>
-        <li><a href="real-estate-agencies.html">Real Estate Agencies</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul>
-        <li><a href="mailto:hello@holidayhomehost.ae">hello@holidayhomehost.ae</a></li>
-        <li><a href="tel:+971501234567">+971 50 123 4567</a></li>
-        <li>Hayat Island, Mina Al Arab</li>
-        <li>Ras Al Khaimah, UAE</li>
-      </ul></div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2025 Holiday Home Host. All rights reserved.</span>
-      <span><a href="#">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="#">Terms of Service</a> &nbsp;&middot;&nbsp; <a href="#">RAKTDA Licensed</a></span>
-    </div>
-  </div>
-</footer>
+    </footer>
 
 <div id="toast" style="position:fixed;bottom:32px;right:32px;z-index:3000;background:rgba(255,255,255,.95);border:1px solid var(--border);backdrop-filter:blur(16px);border-radius:12px;padding:16px 24px;font-family:var(--font-ui);font-size:.9rem;color:var(--text-dark);transform:translateY(80px);opacity:0;transition:all .4s ease;pointer-events:none;max-width:300px;box-shadow:var(--shadow-md);" aria-live="polite"></div>
 
-<script src="script.js"></script>
+
+  <!-- LODGIFY SCRIPTS (LOAD ONCE) -->
+  <script src="https://app.lodgify.com/portable-search-bar/stable/renderPortableSearchBar.js" defer></script>
+  <script src="https://app.lodgify.com/book-now-box/stable/renderBookNowBox.js" defer></script>
+  
+  <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
